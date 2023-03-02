@@ -1,4 +1,4 @@
-import {Fragment} from 'react'
+import {Fragment, useEffect} from 'react'
 import {Disclosure, Menu, Transition} from '@headlessui/react'
 import {Bars3Icon, BellIcon, UserIcon, XMarkIcon} from '@heroicons/react/24/outline'
 import {Navigate, NavLink, Outlet} from "react-router-dom";
@@ -21,6 +21,13 @@ export default function DefaultLayout() {
     if (!token) {
         return <Navigate to='login'/>
     }
+
+    useEffect(() => {
+        axiosClient.get('/users/current')
+            .then(({data}) => {
+                setCurrentUser(data.data);
+            })
+    }, [])
 
     const logout = (ev) => {
         ev.preventDefault();

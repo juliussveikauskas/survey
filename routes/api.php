@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use \App\Http\Controllers\AuthController;
+use \App\Http\Controllers\Api\SurveyController;
+use \App\Http\Controllers\Api\UsersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +19,8 @@ use \App\Http\Controllers\AuthController;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
+    Route::apiResource('survey', SurveyController::class);
+    Route::get('users/current', [UsersController::class, 'current']);
 });
 
 Route::post('/signup', [AuthController::class, 'signup']);
