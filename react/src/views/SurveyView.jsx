@@ -4,6 +4,7 @@ import {PhotoIcon} from "@heroicons/react/20/solid/index.js";
 import TButton from "../components/core/TButton.jsx";
 import axiosClient from "../axios.js";
 import {useNavigate} from "react-router-dom";
+import SurveyQuestions from "../components/SurveyQuestions.jsx";
 
 export default function SurveyView() {
     const navigate = useNavigate();
@@ -39,27 +40,29 @@ export default function SurveyView() {
     const onSubmit = (ev) => {
         ev.preventDefault();
 
-        const payload = {...survey};
-        if (payload.image) {
-            payload.image = payload.image_url;
-        }
-
-        delete payload.image_url;
-
-        axiosClient.post('/survey', payload)
-            .then(res => {
-                navigate('/surveys');
-            })
-            .catch((err) => {
-                if (err && err.response) {
-                    setError(err.response.data.message);
-                }
-            });
+        console.log('sur', survey);
+        // const payload = {...survey};
+        // if (payload.image) {
+        //     payload.image = payload.image_url;
+        // }
+        //
+        // delete payload.image_url;
+        //
+        // axiosClient.post('/survey', payload)
+        //     .then(res => {
+        //         navigate('/surveys');
+        //     })
+        //     .catch((err) => {
+        //         if (err && err.response) {
+        //             setError(err.response.data.message);
+        //         }
+        //     });
     }
 
-    const onDateChange = (ev) => {
-        console.log('ev', ev.target.value);
+    const onSurveyUpdate = (survey) => {
+        setSurvey({...survey})
     }
+
 
     return (
         <PageComponent title='Create new survey'>
@@ -201,10 +204,10 @@ export default function SurveyView() {
                         {/*<button type="button" onClick={addQuestion}>*/}
                         {/*    Add question*/}
                         {/*</button>*/}
-                        {/*<SurveyQuestions*/}
-                        {/*    questions={survey.questions}*/}
-                        {/*    onQuestionsUpdate={onQuestionsUpdate}*/}
-                        {/*/>*/}
+                        <SurveyQuestions
+                            survey={survey}
+                            onSurveyUpdate={onSurveyUpdate}
+                        />
                     </div>
                     <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
                         <TButton>Save</TButton>
